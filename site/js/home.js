@@ -13,18 +13,29 @@ function renderCartCount() {
   document.getElementById('cart-count').textContent = cartItemCount();
 }
 
+let activeFilter = 'all';
+let searchQuery = '';
+
 function productsForFilter(filter) {
   if (filter === 'new') return SHOP_DATA.products.filter((p) => p.isNew);
   if (filter === 'offers') return SHOP_DATA.products.filter((p) => p.discountPercent > 0);
   return SHOP_DATA.products;
 }
 
-function renderProductGrid(filter = 'all') {
+function visibleProducts() {
+  const products = productsForFilter(activeFilter);
+  if (!searchQuery) return products;
+  return products.filter((p) => p.name.toLowerCase().includes(searchQuery));
+}
+
+function renderProductGrid() {
   const grid = document.getElementById('product-grid');
-  const products = productsForFilter(filter);
+  const products = visibleProducts();
 
   if (products.length === 0) {
-    grid.innerHTML = `<p class="empty-grid-note">Nothing here right now — check back soon.</p>`;
+    grid.innerHTML = `<p class="empty-grid-note">${
+      searchQuery ? 'No jerseys match your search.' : 'Nothing here right now — check back soon.'
+    }</p>`;
     return;
   }
 
@@ -63,13 +74,20 @@ function wireFilterControls() {
   document.querySelectorAll('.nav-filter').forEach((el) => {
     el.addEventListener('click', (e) => {
       if (el.tagName === 'A') e.preventDefault();
-      const filter = el.dataset.filter;
+      activeFilter = el.dataset.filter;
       document
         .querySelectorAll('.nav-links .nav-filter')
-        .forEach((o) => o.classList.toggle('selected', o.dataset.filter === filter));
-      renderProductGrid(filter);
+        .forEach((o) => o.classList.toggle('selected', o.dataset.filter === activeFilter));
+      renderProductGrid();
       document.getElementById('product-grid').scrollIntoView({ behavior: 'smooth', block: 'start' });
     });
+  });
+}
+
+function wireSearch() {
+  document.getElementById('search-input').addEventListener('input', (e) => {
+    searchQuery = e.target.value.trim().toLowerCase();
+    renderProductGrid();
   });
 }
 
@@ -129,5 +147,6 @@ function openSizeModal(productId) {
 
 renderProductGrid();
 wireFilterControls();
+wireSearch();
 renderCartCount();
 renderMiniCart();
