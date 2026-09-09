@@ -1,7 +1,9 @@
 import { SHOP_DATA } from './data.js';
-import { getCart, clearCart } from './cart-store.js';
+import { getCart, clearCart, pruneCart } from './cart-store.js';
 import { formatETB } from './money.js';
 import { buildOrderSummary, formatOrderMessage, buildWhatsAppLink, buildTelegramLink } from './order-message.js';
+
+pruneCart(window.localStorage, SHOP_DATA.products.map((p) => p.id));
 
 const cart = getCart(window.localStorage);
 const checkoutInfoRaw = window.localStorage.getItem('jerseydrop_checkout');

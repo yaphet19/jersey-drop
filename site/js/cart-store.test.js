@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { getCart, addToCart, updateQty, removeFromCart, clearCart } from './cart-store.js';
+import { getCart, addToCart, updateQty, removeFromCart, clearCart, pruneCart } from './cart-store.js';
 
 function makeMemoryStorage() {
   const map = new Map();
@@ -50,6 +50,17 @@ test('removeFromCart removes only the matching product+size+sleeve+fit line', ()
   assert.deepEqual(getCart(storage), [
     { productId: 'p2', size: 'L', sleeve: 'Long Sleeve', fit: 'Player Version', qty: 1 },
   ]);
+});
+
+test('pruneCart drops items whose product is no longer in the catalog, keeping the rest', () => {
+  const storage = makeMemoryStorage();
+  addToCart(storage, 'arsenal-home', 'M', 'Short Sleeve', 'Replica', 1);
+  addToCart(storage, 'deleted-kit', 'L', 'Short Sleeve', 'Replica', 2);
+  const cart = pruneCart(storage, ['arsenal-home', 'chelsea-away']);
+  assert.deepEqual(cart, [
+    { productId: 'arsenal-home', size: 'M', sleeve: 'Short Sleeve', fit: 'Replica', qty: 1 },
+  ]);
+  assert.deepEqual(getCart(storage), cart);
 });
 
 test('clearCart empties the cart', () => {

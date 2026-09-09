@@ -1,6 +1,23 @@
 export const DEFAULT_FIT = 'Replica';
 export const DEFAULT_SLEEVE = 'Short Sleeve';
 
+const SIZES = ['S', 'M', 'L'];
+
+function jersey(id, name, price, file, description) {
+  return {
+    id,
+    name,
+    category: "Men's Jersey",
+    price,
+    discountPercent: 0,
+    isNew: true,
+    sizes: SIZES,
+    image: `assets/jerseys/${file}`,
+    images: [`assets/jerseys/${file}`],
+    description,
+  };
+}
+
 export const SHOP_DATA = {
   shopName: 'Jersey Drop',
   whatsappNumber: '251991073772',
@@ -10,103 +27,30 @@ export const SHOP_DATA = {
   deliveryCity: 'Addis Ababa',
   deliveryFee: 150,
   products: [
-    {
-      id: 'p1',
-      name: 'Crimson Home Kit',
-      category: "Men's Jersey",
-      price: 2200,
-      discountPercent: 20,
-      sizes: ['S', 'M', 'L'],
-      image: 'assets/jerseys/jersey-red.svg',
-      images: [
-        'assets/jerseys/jersey-red.svg',
-        'assets/jerseys/jersey-red-back.svg',
-        'assets/jerseys/jersey-red-detail.svg',
-      ],
-      description:
-        'Lightweight home jersey with a breathable mesh weave and a classic crew collar. Designed for match days and casual wear alike.',
-    },
-    {
-      id: 'p2',
-      name: 'Royal Away Kit',
-      category: "Men's Jersey",
-      price: 2400,
-      discountPercent: 0,
-      sizes: ['S', 'M', 'L'],
-      image: 'assets/jerseys/jersey-blue.svg',
-      images: [
-        'assets/jerseys/jersey-blue.svg',
-        'assets/jerseys/jersey-blue-back.svg',
-        'assets/jerseys/jersey-blue-detail.svg',
-      ],
-      description:
-        'Away-day jersey in a deep royal tone with a regular fit. Soft, sweat-wicking fabric keeps you comfortable through 90 minutes.',
-    },
-    {
-      id: 'p3',
-      name: 'Sky Performance Kit',
-      category: "Men's Jersey",
-      price: 2300,
-      discountPercent: 15,
-      sizes: ['S', 'M', 'L'],
-      image: 'assets/jerseys/jersey-skyblue.svg',
-      images: [
-        'assets/jerseys/jersey-skyblue.svg',
-        'assets/jerseys/jersey-skyblue-back.svg',
-        'assets/jerseys/jersey-skyblue-detail.svg',
-      ],
-      description:
-        'Performance-cut jersey built for training and play. Stretch panels at the sides move with you, sky-blue colorway.',
-    },
-    {
-      id: 'p4',
-      name: 'Classic Maroon Kit',
-      category: "Men's Jersey",
-      price: 2250,
-      discountPercent: 0,
-      sizes: ['S', 'M', 'L'],
-      image: 'assets/jerseys/jersey-maroon.svg',
-      images: [
-        'assets/jerseys/jersey-maroon.svg',
-        'assets/jerseys/jersey-maroon-back.svg',
-        'assets/jerseys/jersey-maroon-detail.svg',
-      ],
-      description:
-        'A timeless kit in deep maroon. Durable stitching and a relaxed fit make it an everyday favorite, on the pitch or off it.',
-    },
-    {
-      id: 'p5',
-      name: 'Emerald Training Kit',
-      category: "Men's Jersey",
-      price: 2350,
-      discountPercent: 10,
-      isNew: true,
-      sizes: ['S', 'M', 'L'],
-      image: 'assets/jerseys/jersey-emerald.svg',
-      images: [
-        'assets/jerseys/jersey-emerald.svg',
-        'assets/jerseys/jersey-emerald-back.svg',
-        'assets/jerseys/jersey-emerald-detail.svg',
-      ],
-      description:
-        'Bold emerald training kit with contrast trim on the collar and sleeves. Built for everyday training sessions.',
-    },
-    {
-      id: 'p6',
-      name: 'Onyx Elite Kit',
-      category: "Men's Jersey",
-      price: 2500,
-      discountPercent: 0,
-      isNew: true,
-      sizes: ['S', 'M', 'L'],
-      image: 'assets/jerseys/jersey-onyx.svg',
-      images: [
-        'assets/jerseys/jersey-onyx.svg',
-        'assets/jerseys/jersey-onyx-back.svg',
-        'assets/jerseys/jersey-onyx-detail.svg',
-      ],
-      description:
-        'Sleek all-black elite kit with clean white trim. The most understated jersey in the lineup, built for those who like it simple.',
-    },
+    jersey('arsenal-home', 'Arsenal Home', 3200, 'arsenal-home.webp', 'Arsenal home kit in the classic red and white.'),
+    jersey('arsenal-away', 'Arsenal Away', 3250, 'arsenal-away.webp', 'Arsenal away kit for the season.'),
+    jersey('arsenal-third', 'Arsenal Third', 3200, 'arsenal-third.webp', 'Arsenal third kit.'),
+
+    jersey('barcelona-home', 'Barcelona Home', 3200, 'barcelona-home.webp', 'Barcelona home kit in the club colours.'),
+    jersey('barcelona-away', 'Barcelona Away', 3250, 'barcelona-away.webp', 'Barcelona away kit for the season.'),
+    jersey('barcelona-third', 'Barcelona Third', 3300, 'barcelona-third.webp', 'Barcelona third kit.'),
+
+    jersey('chelsea-home', 'Chelsea Home', 3250, 'chelsea-home.webp', 'Chelsea home kit in the classic blue.'),
+    jersey('chelsea-away', 'Chelsea Away', 3300, 'chelsea-away.webp', 'Chelsea away kit for the season.'),
+
+    jersey('liverpool-home', 'Liverpool Home', 3200, 'liverpool-home.webp', 'Liverpool home kit in the classic red.'),
+    jersey('liverpool-away', 'Liverpool Away', 3250, 'liverpool-away.webp', 'Liverpool away kit for the season.'),
+
+    jersey('madrid-home', 'Real Madrid Home', 3200, 'madrid-home.webp', 'Real Madrid home kit in the classic white.'),
+    jersey('madrid-away', 'Real Madrid Away', 3250, 'madrid-away.webp', 'Real Madrid away kit for the season.'),
+    jersey('madrid-third', 'Real Madrid Third', 3300, 'madrid-third.webp', 'Real Madrid third kit.'),
+
+    jersey('man-city-home', 'Man City Home', 3200, 'man-city-home.webp', 'Manchester City home kit in sky blue.'),
+    jersey('man-city-away', 'Man City Away', 3250, 'man-city-away.webp', 'Manchester City away kit for the season.'),
+    jersey('man-city-third', 'Man City Third', 3200, 'man-city-third.webp', 'Manchester City third kit.'),
+
+    jersey('man-united-home', 'Man United Home', 3200, 'man-united-home.webp', 'Manchester United home kit in the classic red.'),
+    jersey('man-united-away', 'Man United Away', 3200, 'man-united-away.webp', 'Manchester United away kit for the season.'),
+    jersey('man-united-third', 'Man United Third', 3300, 'man-united-third.webp', 'Manchester United third kit.'),
   ],
 };

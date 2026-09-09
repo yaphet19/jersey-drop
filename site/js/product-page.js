@@ -1,7 +1,9 @@
 import { SHOP_DATA, DEFAULT_FIT, DEFAULT_SLEEVE } from './data.js';
 import { computeDiscountedPrice, formatETB } from './money.js';
-import { addToCart, getCart } from './cart-store.js';
+import { addToCart, getCart, pruneCart } from './cart-store.js';
 import { renderMiniCart } from './mini-cart.js';
+
+pruneCart(window.localStorage, SHOP_DATA.products.map((p) => p.id));
 
 function renderCartCount() {
   document.getElementById('cart-count').textContent = getCart(window.localStorage).reduce(

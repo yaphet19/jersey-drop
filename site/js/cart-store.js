@@ -40,3 +40,10 @@ export function removeFromCart(storage, productId, size, sleeve, fit) {
 export function clearCart(storage) {
   storage.removeItem(CART_KEY);
 }
+
+// Drops saved items whose product is no longer in the catalog, so a cart saved
+// before a catalog change can't crash the pages that look those products up.
+export function pruneCart(storage, validProductIds) {
+  const cart = getCart(storage).filter((item) => validProductIds.includes(item.productId));
+  return saveCart(storage, cart);
+}

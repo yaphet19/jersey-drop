@@ -1,6 +1,8 @@
 import { SHOP_DATA } from './data.js';
 import { formatETB } from './money.js';
-import { getCart } from './cart-store.js';
+import { getCart, pruneCart } from './cart-store.js';
+
+pruneCart(window.localStorage, SHOP_DATA.products.map((p) => p.id));
 
 if (getCart(window.localStorage).length === 0) {
   window.location.href = 'cart.html';

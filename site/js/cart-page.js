@@ -1,6 +1,8 @@
 import { SHOP_DATA } from './data.js';
 import { formatETB, computeDiscountedPrice } from './money.js';
-import { getCart, updateQty, removeFromCart } from './cart-store.js';
+import { getCart, updateQty, removeFromCart, pruneCart } from './cart-store.js';
+
+pruneCart(window.localStorage, SHOP_DATA.products.map((p) => p.id));
 
 function render() {
   const cart = getCart(window.localStorage);
