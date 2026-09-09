@@ -23,7 +23,7 @@ export const SHOP_DATA = {
   whatsappNumber: '251991073772',
   telegramUsername: '+251991073772',
   telebirrNumber: '0991073772',
-  cbeAccount: '1000123456789',
+  cbeAccount: '1000702522025',
   deliveryCity: 'Addis Ababa',
   deliveryFrom: 'Ayat 49',
   // Ordered by driving distance from Ayat 49. Only Bole 356, Arat Kilo 372 and
