@@ -94,7 +94,7 @@ a { color: inherit; text-decoration: none; }
 
 .product-grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   gap: 32px 16px;
   max-width: 900px;
   margin: 0 auto;
@@ -182,10 +182,6 @@ a { color: inherit; text-decoration: none; }
 .size-options { display: flex; gap: 8px; margin: 10px 0 18px; flex-wrap: wrap; }
 .size-option { border: 1px solid #ccc; border-radius: 3px; padding: 8px 14px; font-size: 13px; cursor: pointer; }
 .size-option.selected { border-color: var(--color-black); background: var(--color-black); color: var(--color-white); }
-
-@media (max-width: 480px) {
-  .product-grid { grid-template-columns: repeat(2, 1fr); }
-}
 
 .mini-cart {
   display: none;
