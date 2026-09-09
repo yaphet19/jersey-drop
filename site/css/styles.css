@@ -186,6 +186,20 @@ a { color: inherit; text-decoration: none; }
 select.field { background: var(--color-white); font-family: inherit; }
 .zone-fee-note { font-size: 12px; font-weight: 700; color: var(--color-orange); margin-top: 6px; min-height: 16px; }
 
+.verify-box { font-family: inherit; resize: vertical; }
+.verify-verdict { border-radius: 6px; padding: 16px; margin: 20px 0 12px; text-align: center; color: var(--color-white); }
+.verify-verdict-title { font-size: 16px; font-weight: 900; }
+.verify-verdict-note { font-size: 12px; margin-top: 4px; opacity: .9; }
+.verify-match { background: #15803d; }
+.verify-mismatch { background: #b91c1c; }
+.verify-incomplete { background: #a16207; }
+.verify-row { border: 1px solid var(--color-gray-border); border-left-width: 4px; border-radius: 3px; padding: 10px 12px; margin-bottom: 8px; }
+.verify-row-head { font-weight: 800; font-size: 13px; margin-bottom: 4px; }
+.verify-row-detail { font-size: 12px; color: #444; }
+.verify-row-match { border-left-color: #15803d; }
+.verify-row-mismatch { border-left-color: #b91c1c; background: #fef2f2; }
+.verify-row-unknown { border-left-color: #a16207; background: #fefce8; }
+
 .pay-to-box { background: var(--color-black); color: var(--color-white); border-radius: 6px; padding: 16px; text-align: center; margin: 16px 0; }
 .pay-to-amount { font-size: 26px; font-weight: 900; color: var(--color-orange); }
 .pay-to-target { font-size: 12px; margin-top: 4px; }
