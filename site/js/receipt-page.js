@@ -7,12 +7,18 @@ pruneCart(window.localStorage, SHOP_DATA.products.map((p) => p.id));
 
 const cart = getCart(window.localStorage);
 const checkoutInfoRaw = window.localStorage.getItem('jerseydrop_checkout');
+const savedCheckout = checkoutInfoRaw ? JSON.parse(checkoutInfoRaw) : null;
+const savedZone = savedCheckout && SHOP_DATA.deliveryZones.find((z) => z.id === savedCheckout.zoneId);
 
-if (cart.length === 0 || !checkoutInfoRaw) {
+if (cart.length === 0 || !savedCheckout) {
   window.location.href = 'cart.html';
+} else if (!savedZone) {
+  // Checkout details saved before the delivery zones existed (or a zone that
+  // has since been removed) — send them back to pick one.
+  window.location.href = 'checkout.html';
 } else {
-  const checkoutInfo = JSON.parse(checkoutInfoRaw);
-  const zone = { name: `${SHOP_DATA.deliveryCity} — ${checkoutInfo.area}`, fee: SHOP_DATA.deliveryFee };
+  const checkoutInfo = savedCheckout;
+  const zone = savedZone;
   const customer = { name: checkoutInfo.name, phone: checkoutInfo.phone, address: checkoutInfo.address };
 
   let selectedPaymentMethod = 'Telebirr';
@@ -30,10 +36,14 @@ if (cart.length === 0 || !checkoutInfoRaw) {
       `
       )
       .join('');
+    const feePending = summary.deliveryFee === null;
     document.getElementById('receipt-subtotal').textContent = formatETB(summary.subtotal);
     document.getElementById('receipt-delivery-label').textContent = `Delivery fee (${zone.name})`;
-    document.getElementById('receipt-delivery-value').textContent = formatETB(summary.deliveryFee);
+    document.getElementById('receipt-delivery-value').textContent = feePending
+      ? "We'll confirm on WhatsApp"
+      : formatETB(summary.deliveryFee);
     document.getElementById('receipt-total').textContent = formatETB(summary.total);
+    document.querySelector('.receipt-total span').textContent = feePending ? 'TOTAL (before delivery)' : 'TOTAL';
 
     const message = formatOrderMessage(summary);
     document.getElementById('whatsapp-link').href = buildWhatsAppLink(SHOP_DATA.whatsappNumber, message);

@@ -15,11 +15,14 @@ export function buildOrderSummary(cartItems, products, customer, zone, paymentMe
     };
   });
   const subtotal = lines.reduce((sum, l) => sum + l.lineTotal, 0);
+  // A zone with no set fee gets quoted on WhatsApp, so the total stays the
+  // items only rather than silently pretending delivery is free.
+  const feeKnown = typeof zone.fee === 'number';
   return {
     lines,
     subtotal,
-    deliveryFee: zone.fee,
-    total: subtotal + zone.fee,
+    deliveryFee: feeKnown ? zone.fee : null,
+    total: feeKnown ? subtotal + zone.fee : subtotal,
     customer,
     zone,
     paymentMethod,
@@ -34,8 +37,12 @@ export function formatOrderMessage(summary) {
     'JERSEY DROP ORDER',
     itemLines,
     `Subtotal: ${formatETB(summary.subtotal)}`,
-    `Delivery (${summary.zone.name}): ${formatETB(summary.deliveryFee)}`,
-    `TOTAL: ${formatETB(summary.total)}`,
+    summary.deliveryFee === null
+      ? `Delivery (${summary.zone.name}): to be confirmed`
+      : `Delivery (${summary.zone.name}): ${formatETB(summary.deliveryFee)}`,
+    summary.deliveryFee === null
+      ? `TOTAL (before delivery): ${formatETB(summary.total)}`
+      : `TOTAL: ${formatETB(summary.total)}`,
     '',
     `Name: ${summary.customer.name}`,
     `Phone: ${summary.customer.phone}`,

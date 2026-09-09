@@ -25,7 +25,15 @@ export const SHOP_DATA = {
   telebirrNumber: '0991073772',
   cbeAccount: '1000123456789',
   deliveryCity: 'Addis Ababa',
-  deliveryFee: 150,
+  deliveryFrom: 'Ayat 49',
+  // Fees are real Yango quotes from Ayat 49. A null fee means we quote it on
+  // WhatsApp instead of guessing — add areas here as you get more quotes.
+  deliveryZones: [
+    { id: 'bole', name: 'Bole (Medhanialem)', fee: 356 },
+    { id: 'arat-kilo', name: 'Arat Kilo', fee: 372 },
+    { id: 'jemo', name: 'Jemo', fee: 561 },
+    { id: 'other', name: 'Other area in Addis', fee: null },
+  ],
   products: [
     jersey('arsenal-home', 'Arsenal Home', 3200, 'arsenal-home.webp', 'Arsenal home kit in the classic red and white.'),
     jersey('arsenal-away', 'Arsenal Away', 3250, 'arsenal-away.webp', 'Arsenal away kit for the season.'),

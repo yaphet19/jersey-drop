@@ -33,6 +33,17 @@ test('formatOrderMessage includes items with sleeve/fit, totals, customer detail
   assert.match(message, /No payment now/);
 });
 
+test('a zone with no set fee leaves delivery unpriced and keeps the total at items only', () => {
+  const pendingZone = { id: 'other', name: 'Other area in Addis', fee: null };
+  const summary = buildOrderSummary(cartItems, products, customer, pendingZone, 'Telebirr');
+  assert.equal(summary.deliveryFee, null);
+  assert.equal(summary.total, 1760 + 2400);
+
+  const message = formatOrderMessage(summary);
+  assert.match(message, /Delivery \(Other area in Addis\): to be confirmed/);
+  assert.match(message, /TOTAL \(before delivery\): 4,160 ETB/);
+});
+
 test('buildWhatsAppLink URL-encodes the message into a wa.me link', () => {
   const link = buildWhatsAppLink('251900000000', 'Hello there');
   assert.equal(link, 'https://wa.me/251900000000?text=Hello%20there');
