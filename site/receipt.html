@@ -25,11 +25,28 @@
     <div class="field-label">PAYMENT METHOD</div>
     <div id="pay-options"></div>
 
-    <div class="note-box">No payment now — pay via Telebirr/CBE when your order arrives.</div>
+    <div class="note-box" id="pay-note"></div>
 
-    <div class="field-label" style="text-align:center">SEND YOUR ORDER TO CONFIRM</div>
-    <a class="btn btn-whatsapp btn-block" id="whatsapp-link" target="_blank" rel="noopener">📱 SEND ON WHATSAPP</a>
-    <a class="btn btn-telegram btn-block" id="telegram-link" target="_blank" rel="noopener">✈️ SEND ON TELEGRAM</a>
+    <button class="btn btn-primary btn-block" id="proceed-payment-btn">PROCEED TO PAYMENT</button>
+
+    <div id="payment-step" hidden>
+      <div class="pay-to-box" id="pay-to-box"></div>
+
+      <div class="field-label">NAME ON YOUR TELEBIRR ACCOUNT</div>
+      <input class="field" id="field-payer-name" placeholder="e.g. Sara Bekele">
+
+      <div class="field-label">YOUR TELEBIRR PHONE NUMBER</div>
+      <input class="field" id="field-payer-phone" inputmode="numeric" placeholder="09xxxxxxxx">
+
+      <div class="field-label">TRANSACTION NUMBER</div>
+      <input class="field" id="field-txn" placeholder="From your Telebirr confirmation SMS">
+      <div class="zone-fee-note" id="txn-hint">This is what lets us verify your payment with Ethio Telecom.</div>
+
+      <div class="note-box">Attach your payment screenshot in the chat after it opens.</div>
+
+      <a class="btn btn-whatsapp btn-block" id="whatsapp-link" target="_blank" rel="noopener">📱 SEND SCREENSHOT ON WHATSAPP</a>
+      <a class="btn btn-telegram btn-block" id="telegram-link" target="_blank" rel="noopener">✈️ SEND SCREENSHOT ON TELEGRAM</a>
+    </div>
   </div>
 
   <script type="module" src="js/receipt-page.js"></script>

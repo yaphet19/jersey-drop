@@ -1,6 +1,12 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { buildOrderSummary, formatOrderMessage, buildWhatsAppLink, buildTelegramLink } from './order-message.js';
+import {
+  buildOrderSummary,
+  formatOrderMessage,
+  buildWhatsAppLink,
+  buildTelegramLink,
+  buildTelebirrReceiptUrl,
+} from './order-message.js';
 
 const products = [
   { id: 'p1', name: 'Crimson Home Kit', price: 2200, discountPercent: 20 },
@@ -24,13 +30,13 @@ test('buildOrderSummary computes discounted line totals, subtotal, and total inc
   assert.equal(summary.total, 1760 + 2400 + 150);
 });
 
-test('formatOrderMessage includes items with sleeve/fit, totals, customer details, and the no-payment-now note', () => {
+test('formatOrderMessage includes items with sleeve/fit, totals and customer details', () => {
   const summary = buildOrderSummary(cartItems, products, customer, zone, 'Telebirr');
   const message = formatOrderMessage(summary);
   assert.match(message, /Crimson Home Kit \(M, Short Sleeve, Replica\) x1/);
   assert.match(message, /TOTAL: 4,310 ETB/);
   assert.match(message, /Abel Tesfaye/);
-  assert.match(message, /No payment now/);
+  assert.match(message, /Payment method: Telebirr/);
 });
 
 test('a zone with no set fee leaves delivery unpriced and keeps the total at items only', () => {
@@ -42,6 +48,33 @@ test('a zone with no set fee leaves delivery unpriced and keeps the total at ite
   const message = formatOrderMessage(summary);
   assert.match(message, /Delivery \(Other area in Addis\): to be confirmed/);
   assert.match(message, /TOTAL \(before delivery\): 4,160 ETB/);
+});
+
+test('payment details add the payer, transaction number and an Ethio Telecom verify link', () => {
+  const summary = buildOrderSummary(cartItems, products, customer, zone, 'Telebirr');
+  const message = formatOrderMessage(summary, {
+    payerName: 'Sara Bekele',
+    payerPhone: '0922334455',
+    transactionNumber: 'CH24ABC7XY',
+  });
+  assert.match(message, /Paid by: Sara Bekele/);
+  assert.match(message, /Telebirr number: 0922334455/);
+  assert.match(message, /Transaction number: CH24ABC7XY/);
+  assert.match(message, /Verify: https:\/\/transactioninfo\.ethiotelecom\.et\/receipt\/CH24ABC7XY/);
+});
+
+test('the order message omits payment lines entirely when no payment details are given', () => {
+  const summary = buildOrderSummary(cartItems, products, customer, zone, 'Telebirr');
+  const message = formatOrderMessage(summary);
+  assert.doesNotMatch(message, /Paid by:/);
+  assert.doesNotMatch(message, /Verify:/);
+});
+
+test('buildTelebirrReceiptUrl trims and URL-encodes the transaction number', () => {
+  assert.equal(
+    buildTelebirrReceiptUrl('  AB/12 34  '),
+    'https://transactioninfo.ethiotelecom.et/receipt/AB%2F12%2034'
+  );
 });
 
 test('buildWhatsAppLink URL-encodes the message into a wa.me link', () => {

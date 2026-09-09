@@ -22,6 +22,7 @@ if (cart.length === 0 || !savedCheckout) {
   const customer = { name: checkoutInfo.name, phone: checkoutInfo.phone, address: checkoutInfo.address };
 
   let selectedPaymentMethod = 'Telebirr';
+  let lastSummary = null;
 
   function renderSummary() {
     const summary = buildOrderSummary(cart, SHOP_DATA.products, customer, zone, selectedPaymentMethod);
@@ -45,16 +46,52 @@ if (cart.length === 0 || !savedCheckout) {
     document.getElementById('receipt-total').textContent = formatETB(summary.total);
     document.querySelector('.receipt-total span').textContent = feePending ? 'TOTAL (before delivery)' : 'TOTAL';
 
-    const message = formatOrderMessage(summary);
-    document.getElementById('whatsapp-link').href = buildWhatsAppLink(SHOP_DATA.whatsappNumber, message);
-    document.getElementById('telegram-link').href = buildTelegramLink(SHOP_DATA.telegramUsername, message);
+    lastSummary = summary;
+    renderPayNote(summary);
+    renderSendLinks();
+  }
+
+  function renderPayNote(summary) {
+    const account =
+      selectedPaymentMethod === 'Telebirr'
+        ? `Telebirr ${SHOP_DATA.telebirrNumber}`
+        : `CBE account ${SHOP_DATA.cbeAccount}`;
+    const amount = summary.deliveryFee === null ? `${formatETB(summary.total)} plus delivery` : formatETB(summary.total);
+    document.getElementById('pay-note').textContent = `Send ${amount} to ${account}, then confirm below.`;
+    document.getElementById('pay-to-box').innerHTML =
+      `<div class="pay-to-amount">${amount}</div><div class="pay-to-target">to ${account}</div>`;
+  }
+
+  function paymentDetails() {
+    return {
+      payerName: document.getElementById('field-payer-name').value.trim(),
+      payerPhone: document.getElementById('field-payer-phone').value.trim(),
+      transactionNumber: document.getElementById('field-txn').value.trim(),
+    };
+  }
+
+  function paymentComplete() {
+    const p = paymentDetails();
+    return Boolean(p.payerName && p.payerPhone && p.transactionNumber);
+  }
+
+  function renderSendLinks() {
+    const ready = paymentComplete();
+    const message = formatOrderMessage(lastSummary, ready ? paymentDetails() : null);
+    const wa = document.getElementById('whatsapp-link');
+    const tg = document.getElementById('telegram-link');
+    wa.href = buildWhatsAppLink(SHOP_DATA.whatsappNumber, message);
+    tg.href = buildTelegramLink(SHOP_DATA.telegramUsername, message);
+    // Until the payment details are filled in, the shop would have nothing to
+    // verify against, so don't let the order be sent yet.
+    [wa, tg].forEach((el) => el.classList.toggle('btn-disabled', !ready));
   }
 
   function renderPayOptions() {
     const payOptionsEl = document.getElementById('pay-options');
     const options = [
-      { id: 'Telebirr', label: 'Telebirr', detail: `Send to ${SHOP_DATA.telebirrNumber} when the delivery person arrives, then confirm.` },
-      { id: 'CBE', label: 'CBE (bank transfer)', detail: `Account ${SHOP_DATA.cbeAccount}, confirm with your screenshot.` },
+      { id: 'Telebirr', label: 'Telebirr', detail: `Send to ${SHOP_DATA.telebirrNumber}` },
+      { id: 'CBE', label: 'CBE (bank transfer)', detail: `Account ${SHOP_DATA.cbeAccount}` },
     ];
     payOptionsEl.innerHTML = options
       .map(
@@ -77,8 +114,26 @@ if (cart.length === 0 || !savedCheckout) {
     });
   }
 
-  document.getElementById('whatsapp-link').addEventListener('click', () => clearCart(window.localStorage));
-  document.getElementById('telegram-link').addEventListener('click', () => clearCart(window.localStorage));
+  document.getElementById('proceed-payment-btn').addEventListener('click', (e) => {
+    const step = document.getElementById('payment-step');
+    step.hidden = false;
+    e.target.hidden = true;
+    step.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+
+  ['field-payer-name', 'field-payer-phone', 'field-txn'].forEach((id) => {
+    document.getElementById(id).addEventListener('input', renderSendLinks);
+  });
+
+  ['whatsapp-link', 'telegram-link'].forEach((id) => {
+    document.getElementById(id).addEventListener('click', (e) => {
+      if (!paymentComplete()) {
+        e.preventDefault();
+        return;
+      }
+      clearCart(window.localStorage);
+    });
+  });
 
   renderPayOptions();
   renderSummary();

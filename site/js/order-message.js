@@ -29,10 +29,19 @@ export function buildOrderSummary(cartItems, products, customer, zone, paymentMe
   };
 }
 
-export function formatOrderMessage(summary) {
+export function formatOrderMessage(summary, payment) {
   const itemLines = summary.lines
     .map((l) => `- ${l.name} (${l.size}, ${l.sleeve}, ${l.fit}) x${l.qty} — ${formatETB(l.lineTotal)}`)
     .join('\n');
+  const paymentLines = payment
+    ? [
+        '',
+        `Paid by: ${payment.payerName}`,
+        `Telebirr number: ${payment.payerPhone}`,
+        `Transaction number: ${payment.transactionNumber}`,
+        `Verify: ${buildTelebirrReceiptUrl(payment.transactionNumber)}`,
+      ]
+    : [];
   return [
     'JERSEY DROP ORDER',
     itemLines,
@@ -48,8 +57,15 @@ export function formatOrderMessage(summary) {
     `Phone: ${summary.customer.phone}`,
     `Address: ${summary.customer.address}`,
     `Payment method: ${summary.paymentMethod}`,
-    'No payment now — pay via Telebirr/CBE when your order arrives.',
+    ...paymentLines,
   ].join('\n');
+}
+
+// Ethio Telecom publishes every Telebirr transaction at this URL, so the shop
+// can check the real record instead of trusting a screenshot, which is just an
+// image and can be edited.
+export function buildTelebirrReceiptUrl(transactionNumber) {
+  return `https://transactioninfo.ethiotelecom.et/receipt/${encodeURIComponent(transactionNumber.trim())}`;
 }
 
 export function buildWhatsAppLink(phoneE164, message) {
