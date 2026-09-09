@@ -26,18 +26,41 @@ export const SHOP_DATA = {
   cbeAccount: '1000123456789',
   deliveryCity: 'Addis Ababa',
   deliveryFrom: 'Ayat 49',
-  // Ordered by distance from Ayat 49. `estimated: true` fees are interpolated
-  // between the three real Yango quotes (Bole 356, Arat Kilo 372, Jemo 561) and
-  // deliberately rounded up, so a wrong guess costs the customer a little rather
-  // than costing the shop on every order. Replace them with real quotes as you
-  // get them, and drop the estimated flag when you do.
+  // Ordered by driving distance from Ayat 49. Only Bole 356, Arat Kilo 372 and
+  // Jemo 561 are real Yango quotes; every `estimated: true` fee is a judgement
+  // call anchored on those three and rounded up, so a wrong guess costs the
+  // customer a little rather than costing the shop on every delivery. Replace
+  // them with real quotes as you collect them and drop the estimated flag.
   deliveryZones: [
-    { id: 'ayat', name: 'Ayat / Summit / CMC', fee: 260, estimated: true },
-    { id: 'megenagna', name: 'Megenagna / Gerji / Gurd Shola', fee: 320, estimated: true },
-    { id: 'bole', name: 'Bole / Medhanialem / Kazanchis', fee: 356 },
-    { id: 'arat-kilo', name: 'Arat Kilo / Sidist Kilo / Piassa', fee: 372 },
-    { id: 'mexico', name: 'Mexico / Sarbet / Old Airport / Merkato', fee: 450, estimated: true },
-    { id: 'saris', name: 'Saris / Lebu / Kolfe / Torhailoch', fee: 510, estimated: true },
+    { id: 'ayat', name: 'Ayat', fee: 200, estimated: true },
+    { id: 'ayat-adebabay', name: 'Ayat Adebabay', fee: 210, estimated: true },
+    { id: 'tafo', name: 'Tafo', fee: 230, estimated: true },
+    { id: 'summit', name: 'Summit', fee: 250, estimated: true },
+    { id: 'cmc', name: 'CMC', fee: 270, estimated: true },
+    { id: 'goro', name: 'Goro', fee: 280, estimated: true },
+    { id: 'hayat', name: 'Hayat', fee: 285, estimated: true },
+    { id: 'gerji', name: 'Gerji', fee: 295, estimated: true },
+    { id: 'gurd-shola', name: 'Gurd Shola', fee: 305, estimated: true },
+    { id: 'megenagna', name: 'Megenagna', fee: 315, estimated: true },
+    { id: 'bole-atlas', name: 'Bole Atlas', fee: 340, estimated: true },
+    { id: 'bole', name: 'Bole (Medhanialem)', fee: 356 },
+    { id: 'bole-airport', name: 'Bole Airport', fee: 360, estimated: true },
+    { id: 'kazanchis', name: 'Kazanchis', fee: 365, estimated: true },
+    { id: 'sidist-kilo', name: 'Sidist Kilo', fee: 370, estimated: true },
+    { id: 'arat-kilo', name: 'Arat Kilo', fee: 372 },
+    { id: 'piassa', name: 'Piassa', fee: 385, estimated: true },
+    { id: 'mexico', name: 'Mexico', fee: 400, estimated: true },
+    { id: 'kera', name: 'Kera', fee: 410, estimated: true },
+    { id: 'sarbet', name: 'Sarbet', fee: 420, estimated: true },
+    { id: 'old-airport', name: 'Old Airport', fee: 430, estimated: true },
+    { id: 'lideta', name: 'Lideta', fee: 440, estimated: true },
+    { id: 'merkato', name: 'Merkato', fee: 450, estimated: true },
+    { id: 'saris', name: 'Saris', fee: 460, estimated: true },
+    { id: 'torhailoch', name: 'Torhailoch', fee: 470, estimated: true },
+    { id: 'ayer-tena', name: 'Ayer Tena', fee: 490, estimated: true },
+    { id: 'lebu', name: 'Lebu', fee: 500, estimated: true },
+    { id: 'kolfe', name: 'Kolfe', fee: 520, estimated: true },
+    { id: 'alem-bank', name: 'Alem Bank', fee: 540, estimated: true },
     { id: 'jemo', name: 'Jemo', fee: 561 },
     { id: 'other', name: 'Other area in Addis', fee: null },
   ],

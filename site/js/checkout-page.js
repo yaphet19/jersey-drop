@@ -14,25 +14,22 @@ document.getElementById('city-note').textContent =
   `We deliver in ${SHOP_DATA.deliveryCity} only, from ${SHOP_DATA.deliveryFrom}.`;
 
 function renderZones() {
-  const list = document.getElementById('zone-list');
-  list.innerHTML = SHOP_DATA.deliveryZones
-    .map(
-      (zone) => `
-      <div class="zone-option" data-zone-id="${zone.id}">
-        <span>${zone.name}</span>
-        <span>${zone.fee === null ? 'We\'ll confirm' : formatETB(zone.fee)}</span>
-      </div>
-    `
-    )
-    .join('');
+  const select = document.getElementById('zone-select');
+  select.innerHTML =
+    '<option value="">Choose your area...</option>' +
+    SHOP_DATA.deliveryZones
+      .map((zone) => `<option value="${zone.id}">${zone.name}</option>`)
+      .join('');
 
-  list.querySelectorAll('.zone-option').forEach((el) => {
-    el.addEventListener('click', () => {
-      list.querySelectorAll('.zone-option').forEach((o) => o.classList.remove('selected'));
-      el.classList.add('selected');
-      selectedZoneId = el.dataset.zoneId;
-      checkFormValid();
-    });
+  select.addEventListener('change', () => {
+    selectedZoneId = select.value;
+    const zone = SHOP_DATA.deliveryZones.find((z) => z.id === selectedZoneId);
+    document.getElementById('zone-fee-note').textContent = !zone
+      ? ''
+      : zone.fee === null
+        ? "Delivery fee confirmed on WhatsApp after you send your order."
+        : `Delivery fee: ${formatETB(zone.fee)}`;
+    checkFormValid();
   });
 }
 
