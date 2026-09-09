@@ -26,11 +26,18 @@ export const SHOP_DATA = {
   cbeAccount: '1000123456789',
   deliveryCity: 'Addis Ababa',
   deliveryFrom: 'Ayat 49',
-  // Fees are real Yango quotes from Ayat 49. A null fee means we quote it on
-  // WhatsApp instead of guessing — add areas here as you get more quotes.
+  // Ordered by distance from Ayat 49. `estimated: true` fees are interpolated
+  // between the three real Yango quotes (Bole 356, Arat Kilo 372, Jemo 561) and
+  // deliberately rounded up, so a wrong guess costs the customer a little rather
+  // than costing the shop on every order. Replace them with real quotes as you
+  // get them, and drop the estimated flag when you do.
   deliveryZones: [
-    { id: 'bole', name: 'Bole (Medhanialem)', fee: 356 },
-    { id: 'arat-kilo', name: 'Arat Kilo', fee: 372 },
+    { id: 'ayat', name: 'Ayat / Summit / CMC', fee: 260, estimated: true },
+    { id: 'megenagna', name: 'Megenagna / Gerji / Gurd Shola', fee: 320, estimated: true },
+    { id: 'bole', name: 'Bole / Medhanialem / Kazanchis', fee: 356 },
+    { id: 'arat-kilo', name: 'Arat Kilo / Sidist Kilo / Piassa', fee: 372 },
+    { id: 'mexico', name: 'Mexico / Sarbet / Old Airport / Merkato', fee: 450, estimated: true },
+    { id: 'saris', name: 'Saris / Lebu / Kolfe / Torhailoch', fee: 510, estimated: true },
     { id: 'jemo', name: 'Jemo', fee: 561 },
     { id: 'other', name: 'Other area in Addis', fee: null },
   ],
