@@ -114,6 +114,10 @@ if (cart.length === 0 || !savedCheckout) {
     });
   }
 
+  document.getElementById('send-note').textContent =
+    `Attach your payment screenshot in the chat after it opens. ` +
+    `We confirm your order ${SHOP_DATA.confirmationTime}.`;
+
   document.getElementById('proceed-payment-btn').addEventListener('click', (e) => {
     const step = document.getElementById('payment-step');
     step.hidden = false;

@@ -11,7 +11,8 @@ if (getCart(window.localStorage).length === 0) {
 let selectedZoneId = null;
 
 document.getElementById('city-note').textContent =
-  `We deliver in ${SHOP_DATA.deliveryCity} only, from ${SHOP_DATA.deliveryFrom}.`;
+  `We deliver in ${SHOP_DATA.deliveryCity} only, from ${SHOP_DATA.deliveryFrom}. ` +
+  `Orders are confirmed ${SHOP_DATA.confirmationTime}.`;
 
 function renderZones() {
   const select = document.getElementById('zone-select');

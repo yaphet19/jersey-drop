@@ -26,6 +26,7 @@ export const SHOP_DATA = {
   cbeAccount: '1000702522025',
   deliveryCity: 'Addis Ababa',
   deliveryFrom: 'Ayat 49',
+  confirmationTime: 'the same day',
   // Ordered by driving distance from Ayat 49. Only Bole 356, Arat Kilo 372 and
   // Jemo 561 are real Yango quotes; every `estimated: true` fee is a judgement
   // call anchored on those three and rounded up, so a wrong guess costs the
