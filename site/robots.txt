@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+
+# The payment checker is for the shop only — keep it out of search results.
+Disallow: /verify.html
+
+Sitemap: https://jerseydrop-addis.netlify.app/sitemap.xml
